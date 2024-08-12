@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -39,6 +39,7 @@ func CollectData() []models.Data {
 	}
 	return data
 }
+
 func FetchLocation() []models.Location {
 	location, err1 := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 	if err1 != nil {
@@ -46,15 +47,17 @@ func FetchLocation() []models.Location {
 	}
 	defer location.Body.Close()
 
-	locationData, err2 := ioutil.ReadAll(location.Body)
-	if err2 != nil {
-		log.Fatal(err2)
-	}
+	// locationData, err2 := io.ReadAll(location.Body)
+	// if err2 != nil {
+	// 	log.Fatal(err2)
+	// }
+	json.NewDecoder(location.Body).Decode(&dateMap)
 
-	err3 := json.Unmarshal(locationData, &locationMap)
-	if err3 != nil {
-		log.Fatal(err3)
-	}
+	// println(string(locationData))
+	// err3 := json.Unmarshal(locationData, &locationMap)
+	// if err3 != nil {
+	// 	log.Fatal(err3)
+	// }
 
 	var bytes []byte
 	for _, b := range locationMap {
@@ -66,11 +69,9 @@ func FetchLocation() []models.Location {
 		log.Fatal(err4)
 	}
 	return Locations
-
 }
 
 func FetchDate() []models.Date {
-
 	date, err1 := http.Get("https://groupietrackers.herokuapp.com/api/dates")
 	if err1 != nil {
 		log.Fatal(err1)
@@ -98,11 +99,9 @@ func FetchDate() []models.Date {
 		log.Fatal(err4)
 	}
 	return Dates
-
 }
 
 func FetchRelationData() []models.Relation {
-
 	relation, err1 := http.Get("https://groupietrackers.herokuapp.com/api/relation")
 	if err1 != nil {
 		log.Fatal(err1)
@@ -110,15 +109,16 @@ func FetchRelationData() []models.Relation {
 
 	defer relation.Body.Close()
 
-	relationData, err2 := ioutil.ReadAll(relation.Body)
-	if err2 != nil {
-		log.Fatal(err2)
-	}
+	// relationData, err2 := io.ReadAll(relation.Body)
+	// if err2 != nil {
+	// 	log.Fatal(err2)
+	// }
 
-	err3 := json.Unmarshal(relationData, &realationMap)
-	if err3 != nil {
-		log.Fatal(err3)
-	}
+	// err3 := json.Unmarshal(relationData, &realationMap)
+	// if err3 != nil {
+	// 	log.Fatal(err3)
+	// }
+	json.NewDecoder(relation.Body).Decode(&dateMap)
 
 	var bytes []byte
 	for _, b := range realationMap {
@@ -131,6 +131,7 @@ func FetchRelationData() []models.Relation {
 	}
 	return Relations
 }
+
 func FetchArtists() []models.Artist {
 	resArtist, err1 := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err1 != nil {
@@ -138,7 +139,7 @@ func FetchArtists() []models.Artist {
 	}
 	defer resArtist.Body.Close()
 
-	artsisInfo, err2 := ioutil.ReadAll(resArtist.Body)
+	artsisInfo, err2 := io.ReadAll(resArtist.Body)
 	if err2 != nil {
 		log.Fatal(err2)
 	}
