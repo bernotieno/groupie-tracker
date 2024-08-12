@@ -1,0 +1,395 @@
+<html>
+  <head>
+
+    <base href="https://example.com/%20create%20a%20nic%20good%20artist%20page%20with%20this%20json%20info%20of%20an%20artist%20%7B%22id%22:1,%22name%22:%22Queen%22,%22image%22:%22https://groupietrackers.herokuapp.com/api/images/queen.jpeg%22,%22creationDate%22:1970,%22firstAlbum%22:%2214-12-1973%22,%22members%22:%5B%22Freddie%20Mercury%22,%22Brian%20May%22,%22John%20Daecon%22,%22Roger%20Meddows-Taylor%22,%22Mike%20Grose%22,%22Barry%20Mitchell%22,%22Doug%20Fogie%22%5D%7D/make%20the%20pic%20of%20the%20artist%20small%20so%20that%20it%20can%20be%20seen%20clearly%20and%20change%20the%20brown%20color#home/remove%20the%20members%20image/make%20the%20page%20responsive%20and%20the%20band%20members%20tab%20to%20be%20more%20responsive/the%20background%20color%20of%20the%20purple%20or%20blue%20replace%20it%20with%20a%20nice%20backgoround%20image">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Queen - Official Artist Page</title>
+<link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="../static/styles.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+  
+  :root {
+    --primary-color: #4a148c;
+    --secondary-color: #ffd700;
+    --text-color: #333;
+    --bg-color: #f4f4f4;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  header {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 20px 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  nav ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 5px 15px;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    color: var(--secondary-color);
+  }
+  
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('https://wallpaperaccess.com/full/1891911.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero h1 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .hero p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .hero-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 30px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  }
+  
+  .btn {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #e5c100;
+  }
+  
+  .section {
+    padding: 100px 0;
+    background-color: white;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: var(--primary-color);
+  }
+  
+  .members-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .member-item {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .member-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: var(--primary-color);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+  }
+  
+  .timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+  }
+  
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -17px;
+    background-color: var(--secondary-color);
+    border: 4px solid var(--primary-color);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  
+  .left {
+    left: 0;
+  }
+  
+  .right {
+    left: 50%;
+  }
+  
+  .right::after {
+    left: -16px;
+  }
+  
+  .timeline-content {
+    padding: 20px 30px;
+    background-color: white;
+    position: relative;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero h1 {
+      font-size: 3rem;
+    }
+  
+    .hero p {
+      font-size: 1.2rem;
+    }
+  
+    .section-title {
+      font-size: 2rem;
+    }
+  
+    .timeline::after {
+      left: 31px;
+    }
+    
+    .timeline-item {
+      width: 100%;
+      padding-left: 70px;
+      padding-right: 25px;
+    }
+    
+    .timeline-item::after {
+      left: 15px;
+    }
+    
+    .left::after, .right::after {
+      left: 15px;
+    }
+    
+    .right {
+      left: 0%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+  
+    .hero-image {
+      width: 120px;
+      height: 120px;
+    }
+  
+    .btn {
+      padding: 10px 20px;
+    }
+  
+    .section-title {
+      font-size: 1.8rem;
+    }
+  }
+    </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#members">Members</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <img src="{{.A.Image}}" alt="{{.A.Name}}" class="{{.A.Name}}-image">
+      <h1>{{.A.Name}}</h1>
+      <p>Legendary Artist Since {{.A.CreationDate}}</p>
+      <a href="#members" class="btn">Explore</a>
+    </div>
+  </section>
+
+<section id="members" class="section">
+  <div class="container">
+    <h2 class="section-title">Band Members</h2>
+    <div class="members-list">
+      {{range .A.Members}}
+      <div class="member-item">
+        <h3>{{.}}</h3>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>
+
+
+<section id="timeline" class="section">
+  <div class="container">
+    <h2 class="section-title">{{.A.Name}} Timeline</h2>
+    <div class="timeline">
+      {{range $year, $events := .R.DatesLocations}}
+      {{range $index, $event := $events}}
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>{{$year}}</h3>
+          <p>{{$event}}</p>
+        </div>
+      </div>
+      {{end}}
+      {{end}}
+    </div>
+  </div>
+</section>
+
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 Queen. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.hero-image', {
+      duration: 1.5,
+      opacity: 0,
+      y: -50,
+      rotation: 360,
+      ease: 'elastic.out(1, 0.5)'
+    });
+
+    gsap.from('.hero-content h1, .hero-content p, .hero-content .btn', {
+      duration: 1,
+      opacity: 0,
+      y: 50,
+      stagger: 0.2,
+      ease: 'power3.out',
+      delay: 0.5
+    });
+
+    gsap.from('.member-item', {
+      scrollTrigger: {
+        trigger: '#members',
+        start: 'top center'
+      },
+      duration: 0.8,
+      opacity: 0,
+      y: 50,
+      stagger: 0.1,
+      ease: 'back.out(1.7)'
+    });
+
+    gsap.from('.timeline-item', {
+      scrollTrigger: {
+        trigger: '#timeline',
+        start: 'top center'
+      },
+      duration: 1,
+      opacity: 0,
+      x: (index) => index % 2 === 0 ? -50 : 50,
+      stagger: 0.3
+    });
+  </script>
+</body></html>
