@@ -1,29 +1,33 @@
-<html><head>
+<html>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Legends - Home</title>
     <link rel="stylesheet" href="../static/styles.css">
-    </head>
-    <body>
-      <header>
-          <nav>
-              <ul>
-                  <li><a href="#home">Home</a></li>
-                  <li><a href="#featured-artists">Featured Artists</a></li>
-              </ul>
-          </nav>
-      </header>
-    
-      <section id="home" class="hero">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#featured-artists">Featured Artists</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
         <div class="hero-content">
             <h1>Music Legends</h1>
             <p>Discover the Greatest Artists of All Time</p>
-            <a href="#featured-artists" class="btn">Explore Artists</a>
-            <input type="text" class="search-bar" placeholder="Search for artists...">
+            <form id="searchForm" onsubmit="return handleSearch(event)">
+                <input type="text" id="searchInput" class="search-bar" placeholder="Search for artists...">
+                <button type="submit" class="btn">Search</button>
+            </form>
+            <div id="searchResult" class="artist-card" style="display: none;"></div>
         </div>
     </section>
-    
-      <section id="featured-artists" class="featured-artists">
+
+    <section id="featured-artists" class="featured-artists">
         <div class="container">
             <h2 class="section-title">Featured Artists</h2>
             <div class="artist-grid">
@@ -44,39 +48,67 @@
                 {{end}}
             </div>
         </div>
-      </section>
-    
-      <footer>
-          <div class="container">
-              <p>&copy; 2023 Music Legends. All rights reserved.</p>
-          </div>
-      </footer>
-    
-      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script> -->
-      <script>
-          gsap.registerPlugin(ScrollTrigger);
-    
-          gsap.from('.hero-content h1, .hero-content p, .hero-content .btn', {
-              duration: 1,
-              opacity: 0,
-              y: 50,
-              stagger: 0.2,
-              ease: 'power3.out',
-              delay: 0.5
-          });
-    
-          gsap.from('.artist-card', {
-              scrollTrigger: {
-                  trigger: '.artist-grid',
-                  start: 'top center'
-              },
-              duration: 0.8,
-              opacity: 0,
-              y: 50,
-              stagger: 0.1,
-              ease: 'back.out(1.7)'
-          });
-      </script>
-    </body>
-    </html>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Music Legends. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script>
+        function handleSearch(event) {
+            event.preventDefault();
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const artistCards = document.querySelectorAll('.flip-card');
+            const searchResult = document.getElementById('searchResult');
+            
+            let foundArtist = null;
+            
+            artistCards.forEach(card => {
+                const artistName = card.querySelector('input[name="ArtistName"]').value.toLowerCase();
+                if (artistName === searchTerm) {
+                    foundArtist = card.cloneNode(true);
+                }
+            });
+            
+            if (foundArtist) {
+                searchResult.innerHTML = '';
+                searchResult.appendChild(foundArtist);
+                searchResult.style.display = 'block';
+                searchResult.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                searchResult.innerHTML = '<p>Artist not found.</p>';
+                searchResult.style.display = 'block';
+            }
+            
+            return false;
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from('.hero-content h1, .hero-content p, .hero-content .btn', {
+            duration: 1,
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            ease: 'power3.out',
+            delay: 0.5
+        });
+
+        gsap.from('.artist-card', {
+            scrollTrigger: {
+                trigger: '.artist-grid',
+                start: 'top center'
+            },
+            duration: 0.8,
+            opacity: 0,
+            y: 50,
+            stagger: 0.1,
+            ease: 'back.out(1.7)'
+        });
+    </script>
+</body>
+</html>
