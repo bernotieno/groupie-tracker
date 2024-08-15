@@ -14,7 +14,7 @@ func main() {
 	http.HandleFunc("/relations", handlers.RelationsHandler)
 	http.HandleFunc("/artistInfo", handlers.ArtistInfo)
 	http.HandleFunc("/", handlers.Home)
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	http.HandleFunc("/static/", handlers.StaticServer)
 	fmt.Println("http://localhost:8080/")
 	http.ListenAndServe(":8080", nil)
 }
