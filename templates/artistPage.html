@@ -1,17 +1,16 @@
 <html>
   <head>
-
-    <base href="https://example.com/%20create%20a%20nic%20good%20artist%20page%20with%20this%20json%20info%20of%20an%20artist%20%7B%22id%22:1,%22name%22:%22Queen%22,%22image%22:%22https://groupietrackers.herokuapp.com/api/images/queen.jpeg%22,%22creationDate%22:1970,%22firstAlbum%22:%2214-12-1973%22,%22members%22:%5B%22Freddie%20Mercury%22,%22Brian%20May%22,%22John%20Daecon%22,%22Roger%20Meddows-Taylor%22,%22Mike%20Grose%22,%22Barry%20Mitchell%22,%22Doug%20Fogie%22%5D%7D/make%20the%20pic%20of%20the%20artist%20small%20so%20that%20it%20can%20be%20seen%20clearly%20and%20change%20the%20brown%20color#home/remove%20the%20members%20image/make%20the%20page%20responsive%20and%20the%20band%20members%20tab%20to%20be%20more%20responsive/the%20background%20color%20of%20the%20purple%20or%20blue%20replace%20it%20with%20a%20nice%20backgoround%20image">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Queen - Official Artist Page</title>
+<title>Artist Page</title>
 <link rel="stylesheet" href="../static/styles.css">
     <link rel="stylesheet" href="../static/styles.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icon.png">
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
   
   :root {
-    --primary-color: #4a148c;
+    --primary-color: #ffd700;
     --secondary-color: #ffd700;
     --text-color: #333;
     --bg-color: #f4f4f4;
@@ -73,7 +72,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('https://wallpaperaccess.com/full/1891911.jpg');
+    background-image: url('./static/groupie.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -110,6 +109,7 @@
   .hero p {
     font-size: 1.5rem;
     margin-bottom: 30px;
+    color: var(--secondary-color);
   }
   
   .hero-image {
@@ -124,7 +124,7 @@
   .btn {
     display: inline-block;
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: black;
     padding: 12px 24px;
     text-decoration: none;
     border-radius: 5px;
@@ -138,7 +138,7 @@
   
   .section {
     padding: 100px 0;
-    background-color: white;
+    background-color: black;
   }
   
   .section-title {
@@ -198,7 +198,7 @@
     width: 25px;
     height: 25px;
     right: -17px;
-    background-color: var(--secondary-color);
+    background-color: black;
     border: 4px solid var(--primary-color);
     top: 15px;
     border-radius: 50%;
@@ -292,7 +292,7 @@
   <header>
     <nav>
       <ul>
-        <li><a href="#home">Home</a></li>
+        <li><a href="/" class="button">Home</a></li>
         <li><a href="#members">Members</a></li>
         <li><a href="#timeline">Timeline</a></li>
       </ul>
@@ -343,7 +343,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; 2023 Queen. All rights reserved.</p>
+      <p>&copy; 2024 Music Legends. All rights reserved.</p>
     </div>
   </footer>
 
