@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -63,10 +62,6 @@ func ArtistInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// funcMap := template.FuncMap{
-	//  "mod": mod,
-	// }
-
 	t, err := template.ParseFiles("./templates/artistPage.html")
 	if err != nil {
 		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
@@ -75,7 +70,7 @@ func ArtistInfo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	artistName := r.FormValue("ArtistName")
-	fmt.Println(artistName)
+
 	if artistName == "" {
 		http.Error(w, "400 Bad Request: Missing artist name", http.StatusBadRequest)
 		return
