@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -47,17 +48,17 @@ func FetchLocation() []models.Location {
 	}
 	defer location.Body.Close()
 
-	// locationData, err2 := io.ReadAll(location.Body)
-	// if err2 != nil {
-	// 	log.Fatal(err2)
-	// }
-	json.NewDecoder(location.Body).Decode(&dateMap)
+	locationData, err2 := io.ReadAll(location.Body)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	// json.NewDecoder(location.Body).Decode(&dateMap)
 
 	// println(string(locationData))
-	// err3 := json.Unmarshal(locationData, &locationMap)
-	// if err3 != nil {
-	// 	log.Fatal(err3)
-	// }
+	err3 := json.Unmarshal(locationData, &locationMap)
+	if err3 != nil {
+		log.Fatal(err3)
+	}
 
 	var bytes []byte
 	for _, b := range locationMap {
@@ -66,6 +67,7 @@ func FetchLocation() []models.Location {
 
 	err4 := json.Unmarshal(bytes, &Locations)
 	if err4 != nil {
+		fmt.Println("Error")
 		log.Fatal(err4)
 	}
 	return Locations
@@ -78,16 +80,16 @@ func FetchDate() []models.Date {
 	}
 	defer date.Body.Close()
 
-	// datesData, err2 := ioutil.ReadAll(date.Body)
-	// if err2 != nil {
-	// 	log.Fatal(err2)
-	// }
-	json.NewDecoder(date.Body).Decode(&dateMap)
+	datesData, err2 := io.ReadAll(date.Body)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	// json.NewDecoder(date.Body).Decode(&dateMap)
 
-	// err3 := json.Unmarshal(datesData, &dateMap)
-	// if err3 != nil {
-	// 	log.Fatal(err3)
-	// }
+	err3 := json.Unmarshal(datesData, &dateMap)
+	if err3 != nil {
+		log.Fatal(err3)
+	}
 
 	var bytes []byte
 	for _, b := range dateMap {
@@ -109,16 +111,16 @@ func FetchRelationData() []models.Relation {
 
 	defer relation.Body.Close()
 
-	// relationData, err2 := io.ReadAll(relation.Body)
-	// if err2 != nil {
-	// 	log.Fatal(err2)
-	// }
+	relationData, err2 := io.ReadAll(relation.Body)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
 
-	// err3 := json.Unmarshal(relationData, &realationMap)
-	// if err3 != nil {
-	// 	log.Fatal(err3)
-	// }
-	json.NewDecoder(relation.Body).Decode(&dateMap)
+	err3 := json.Unmarshal(relationData, &realationMap)
+	if err3 != nil {
+		log.Fatal(err3)
+	}
+	// json.NewDecoder(relation.Body).Decode(&dateMap)
 
 	var bytes []byte
 	for _, b := range realationMap {
