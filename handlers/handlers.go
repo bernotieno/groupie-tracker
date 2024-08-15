@@ -2,13 +2,14 @@ package handlers
 
 import (
 	"encoding/json"
-	"strings"
-
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 
 	"learn.zone01kisumu.ke/git/rcaleb/groupie-tracker/api"
+	"learn.zone01kisumu.ke/git/rcaleb/groupie-tracker/models"
 )
 
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
@@ -49,5 +50,56 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	data := api.FetchArtists()
 
 	tmp.Execute(w, data)
+}
 
+func ArtistInfo(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "400 Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	if r.URL.Path != "/artistInfo" {
+		http.Error(w, "404 Page Not Found", http.StatusNotFound)
+		return
+	}
+
+	// funcMap := template.FuncMap{
+	//  "mod": mod,
+	// }
+
+	t, err := template.ParseFiles("./templates/artistPage.html")
+	if err != nil {
+		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		log.Println("Error parsing template:", err)
+		return
+	}
+
+	artistName := r.FormValue("ArtistName")
+	fmt.Println(artistName)
+	if artistName == "" {
+		http.Error(w, "400 Bad Request: Missing artist name", http.StatusBadRequest)
+		return
+	}
+
+	artistInfo := api.CollectData() // Assuming this returns []models.Data
+
+	var art models.Data
+	found := false
+	for _, artist := range artistInfo {
+		if artistName == artist.A.Name {
+			art = artist
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		http.Error(w, "404 Artist Not Found", http.StatusNotFound)
+		return
+	}
+
+	if err := t.Execute(w, art); err != nil {
+		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		log.Println("Error executing template:", err)
+	}
 }
