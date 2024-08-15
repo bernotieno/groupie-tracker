@@ -231,7 +231,67 @@
     text-align: center;
     padding: 20px 0;
   }
+  .section {
+  padding: 100px 0;
+  background-color: black;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: var(--primary-color);
+}
+
+div  ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+}
+
+div ul li {
+  background-color: #f9f9f9; /* Background color for list items */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px 0; /* Space between list items */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+div  ul li:hover {
+  transform: translateY(-5px); /* Elevate on hover */
+}
+
+div  strong {
+  color: var(--secondary-color); /* Color for strong text */
+}
+.hidden {
+    display: none; /* Hides the element */
+}
+.btn-container {
+  padding-bottom: 20px;
+  background-color: black;
+}
+.show-btn {
+  display: block; /* Make the button a block element */
+  background-color: var(--primary-color);
+  padding: 15px 30px; /* Increased padding for a better look */
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 18px; /* Increased font size */
+  color: black; /* Set text color */
+  text-align: center; /* Center text inside the button */
+  margin: auto; /* Center the button horizontally */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform for hover effect */
+  cursor: pointer; /* Change cursor on hover */
+}
+
+.show-btn:hover {
+  background-color: #e5c100; /* Change background color on hover */
+  transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
   
+
   @media screen and (max-width: 768px) {
     .hero h1 {
       font-size: 3rem;
@@ -339,6 +399,35 @@
     </div>
   </div>
 </section>
+<!-- Button to show performance locations and dates -->
+<div class="btn-container">
+  <button id="toggle-locations-dates" class="show-btn">Show Performance Locations and Dates</button>
+</div>
+
+<!-- Hidden sections for performance dates and locations -->
+<div id="performance-info" class="hidden">
+  <section id="performance-dates" class="section">
+      <div class="container">
+          <h2 class="section-title">{{.A.Name}} Performance Dates</h2>
+          <ul>
+              {{range .D.Dates}}
+              <li>{{.}}</li>
+              {{end}}
+          </ul>
+      </div>
+  </section>
+
+  <section id="performance-locations" class="section">
+      <div class="container">
+          <h2 class="section-title">{{.A.Name}} Performance Locations</h2>
+          <ul>
+              {{range .L.Locations}}
+              <li>{{.}}</li>
+              {{end}}
+          </ul>
+      </div>
+  </section>
+</div>
 
 
   <footer>
@@ -350,6 +439,25 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
   <script>
+ // JavaScript to toggle the visibility of performance info
+ document.getElementById('toggle-locations-dates').addEventListener('click', function() {
+        const performanceInfo = document.getElementById('performance-info');
+        performanceInfo.classList.toggle('hidden'); // Toggle hidden class
+        this.textContent = performanceInfo.classList.contains('hidden') ? 'Show Performance Locations and Dates' : 'Hide Performance Locations and Dates';
+    });
+
+
+//javascript to scroll smoothly when explore is clicked
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.from('.hero-image', {
