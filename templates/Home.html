@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Legends - Home</title>
     <link rel="stylesheet" href="../static/styles.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icon.png">
 </head>
 <body>
     <header>
@@ -16,6 +17,7 @@
     </header>
 
     <section id="home" class="hero">
+        <div id="overlay"></div>
         <div class="hero-content">
             <h1>Music Legends</h1>
             <p>Discover the Greatest Artists of All Time</p>
@@ -24,6 +26,8 @@
                 <button type="submit" class="btn">Search</button>
             </form>
             <div id="searchResult" class="artist-card" style="display: none;"></div>
+       
+       
         </div>
     </section>
 
@@ -52,43 +56,54 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2023 Music Legends. All rights reserved.</p>
+            <p>&copy; 2024 Music Legends. All rights reserved.</p>
         </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
     <script>
-        function handleSearch(event) {
-            event.preventDefault();
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const artistCards = document.querySelectorAll('.flip-card');
-            const searchResult = document.getElementById('searchResult');
-            
-            let foundArtist = null;
-            
-            artistCards.forEach(card => {
-                const artistName = card.querySelector('input[name="ArtistName"]').value.toLowerCase();
-                if (artistName === searchTerm) {
-                    foundArtist = card.cloneNode(true);
-                }
+      function handleSearch(event) {
+    event.preventDefault();
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const artistCards = document.querySelectorAll('.flip-card');
+    const searchResult = document.getElementById('searchResult');
+    
+    let foundArtists = [];
+
+    artistCards.forEach(card => {
+        const artistName = card.querySelector('input[name="ArtistName"]').value.toLowerCase();
+        if (artistName.includes(searchTerm)) {
+            const clonedCard = card.cloneNode(true);
+
+            // Add click event to redirect to artist info page
+            clonedCard.querySelector('.flip-card-back input[type="submit"]').addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent the default form submission
+                card.closest('form').submit(); // Submit the original form
             });
-            
-            if (foundArtist) {
-                searchResult.innerHTML = '';
-                searchResult.appendChild(foundArtist);
-                searchResult.style.display = 'block';
-                searchResult.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                searchResult.innerHTML = '<p>Artist not found.</p>';
-                searchResult.style.display = 'block';
-            }
-            
-            return false;
+
+            foundArtists.push(clonedCard);
         }
+    });
 
+    searchResult.innerHTML = '';
+
+    if (foundArtists.length > 0) {
+        foundArtists.forEach(artist => searchResult.appendChild(artist));
+        searchResult.style.display = 'block';
+        searchResult.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        searchResult.innerHTML = '<p>Artist not found.</p>';
+        searchResult.style.display = 'block';
+    }
+
+    return false;
+}
+
+    
+        // GSAP animations
         gsap.registerPlugin(ScrollTrigger);
-
+    
         gsap.from('.hero-content h1, .hero-content p, .hero-content .btn', {
             duration: 1,
             opacity: 0,
@@ -97,7 +112,7 @@
             ease: 'power3.out',
             delay: 0.5
         });
-
+    
         gsap.from('.artist-card', {
             scrollTrigger: {
                 trigger: '.artist-grid',
@@ -110,5 +125,6 @@
             ease: 'back.out(1.7)'
         });
     </script>
+    
 </body>
 </html>
