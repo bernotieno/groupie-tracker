@@ -1,46 +1,47 @@
-<html><head>
+<html>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{.StatusCode}} Error Page </title>
+  <title>{{.StatusCode}} Error Page</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
+      width: 100%;
       font-family: 'Arial', sans-serif;
       background-color: #000;
       color: #fff;
       overflow: hidden;
     }
     .container {
-      position: relative;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
       z-index: 10;
     }
     #error-code {
-      font-size: 8rem;
+      font-size: 8vw;
       font-weight: bold;
       color: #ffff00;
       text-shadow: 0 0 10px #ffff00;
       margin-bottom: 1rem;
     }
     h1 {
-      font-size: 2.5rem;
+      font-size: 4vw;
       margin-bottom: 1rem;
     }
     p {
-      font-size: 1.2rem;
+      font-size: 2vw;
       text-align: center;
       max-width: 600px;
-      margin-bottom: 2rem;
+      margin: 0 auto 2rem auto;
     }
     #retry-btn {
       padding: 10px 20px;
-      font-size: 1.2rem;
+      font-size: 2vw;
       background-color: #ffff00;
       color: #000;
       border: none;
@@ -60,141 +61,52 @@
       height: 100%;
       z-index: 1;
     }
-    .glitch {
-      position: relative;
-    }
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .glitch::before {
-      left: 2px;
-      text-shadow: -2px 0 #ffff00;
-      clip: rect(44px, 450px, 56px, 0);
-      animation: glitch-anim 5s infinite linear alternate-reverse;
-    }
-    .glitch::after {
-      left: -2px;
-      text-shadow: -2px 0 #ffff00;
-      clip: rect(44px, 450px, 56px, 0);
-      animation: glitch-anim 5s infinite linear alternate-reverse;
-    }
-    @keyframes glitch-anim {
-      0% {
-        clip: rect(31px, 9999px, 94px, 0);
-      }
-      5% {
-        clip: rect(70px, 9999px, 71px, 0);
-      }
-      10% {
-        clip: rect(29px, 9999px, 83px, 0);
-      }
-      15% {
-        clip: rect(75px, 9999px, 98px, 0);
-      }
-      20% {
-        clip: rect(80px, 9999px, 26px, 0);
-      }
-      25% {
-        clip: rect(17px, 9999px, 35px, 0);
-      }
-      30% {
-        clip: rect(63px, 9999px, 40px, 0);
-      }
-      35% {
-        clip: rect(75px, 9999px, 5px, 0);
-      }
-      40% {
-        clip: rect(8px, 9999px, 13px, 0);
-      }
-      45% {
-        clip: rect(66px, 9999px, 97px, 0);
-      }
-      50% {
-        clip: rect(40px, 9999px, 5px, 0);
-      }
-      55% {
-        clip: rect(52px, 9999px, 5px, 0);
-      }
-      60% {
-        clip: rect(83px, 9999px, 40px, 0);
-      }
-      65% {
-        clip: rect(11px, 9999px, 46px, 0);
-      }
-      70% {
-        clip: rect(25px, 9999px, 13px, 0);
-      }
-      75% {
-        clip: rect(75px, 9999px, 23px, 0);
-      }
-      80% {
-        clip: rect(57px, 9999px, 98px, 0);
-      }
-      85% {
-        clip: rect(5px, 9999px, 13px, 0);
-      }
-      90% {
-        clip: rect(69px, 9999px, 86px, 0);
-      }
-      95% {
-        clip: rect(34px, 9999px, 23px, 0);
-      }
-      100% {
-        clip: rect(53px, 9999px, 43px, 0);
-      }
-    }
   </style>
 </head>
 <body>
   <canvas id="matrix-background"></canvas>
   <div class="container">
     <div id="error-code" class="glitch" data-text="{{.StatusCode}}">{{.StatusCode}}</div>
-    <h1 class="glitch" data-text="Opps Sorry!!!">Opps Sorry!!!</h1>
+    <h1 class="glitch" data-text="Oops Sorry!!!">Oops Sorry!!!</h1>
     <p>{{.ErrMsg}}</p>
     <button id="retry-btn">Go To Home</button>
   </div>
 
   <script>
+
     const retryBtn = document.getElementById('retry-btn');
+    retryBtn.addEventListener("click",() => 
+    window.location.href ="/"
+    )
 
-
-    retryBtn.addEventListener('click', () => {
-      window.location.href="/";
-    });retryBtn
-
-    // Matrix rain effect
     const canvas = document.getElementById('matrix-background');
     const ctx = canvas.getContext('2d');
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    let fontSize = 16;
+    let columns;
+    let rainDrops;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      rainDrops = Array(columns).fill(1);
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
     const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const nums = '0123456789';
     const alphabet = katakana + latin + nums;
 
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-
-    const rainDrops = [];
-
-    for (let x = 0; x < columns; x++) {
-      rainDrops[x] = 1;
-    }
-
     function draw() {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.fillStyle = '#ffff00';
-      ctx.font = fontSize + 'px monospace';
+      ctx.font = `${fontSize}px monospace`;
 
       for (let i = 0; i < rainDrops.length; i++) {
         const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
@@ -208,11 +120,6 @@
     }
 
     setInterval(draw, 30);
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
   </script>
 </body>
 </html>
