@@ -1,0 +1,339 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+  
+:root {
+  --primary-color: #ffd700;
+  --secondary-color: #ffd700;
+  --text-color: #333;
+  --bg-color: #f4f4f4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20px 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  flex-wrap: wrap;
+}
+
+nav ul li {
+  margin: 5px 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: var(--secondary-color);
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../static/groupie.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: var(--secondary-color);
+}
+
+.hero-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 30px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: black;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #e5c100;
+}
+
+.section {
+  padding: 100px 0;
+  background-color: black;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: var(--primary-color);
+}
+
+.members-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  justify-content: center;
+}
+
+.member-item {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.member-item:hover {
+  transform: translateY(-5px);
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  background-color: var(--primary-color);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -3px;
+}
+
+.timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+}
+
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: -17px;
+  background-color: black;
+  border: 4px solid var(--primary-color);
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  left: 50%;
+}
+
+.right::after {
+  left: -16px;
+}
+
+.timeline-content {
+  padding: 20px 30px;
+  background-color: white;
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+.section {
+padding: 100px 0;
+background-color: black;
+}
+
+.section-title {
+text-align: center;
+font-size: 2.5rem;
+margin-bottom: 50px;
+color: var(--primary-color);
+}
+
+div  ul {
+list-style-type: none; /* Remove bullet points */
+padding: 0; /* Remove padding */
+}
+
+div ul li {
+background-color: #f9f9f9; /* Background color for list items */
+border-radius: 10px;
+padding: 20px;
+margin: 10px 0; /* Space between list items */
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease;
+}
+
+div  ul li:hover {
+transform: translateY(-5px); /* Elevate on hover */
+}
+
+div  strong {
+color: var(--secondary-color); /* Color for strong text */
+}
+.hidden {
+  display: none; /* Hides the element */
+}
+.btn-container {
+padding-bottom: 20px;
+background-color: black;
+}
+.show-btn {
+display: block; /* Make the button a block element */
+background-color: var(--primary-color);
+padding: 15px 30px; /* Increased padding for a better look */
+border-radius: 5px;
+font-weight: 700;
+font-size: 18px; /* Increased font size */
+color: black; /* Set text color */
+text-align: center; /* Center text inside the button */
+margin: auto; /* Center the button horizontally */
+transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform for hover effect */
+cursor: pointer; /* Change cursor on hover */
+}
+
+.show-btn:hover {
+background-color: #e5c100; /* Change background color on hover */
+transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .timeline::after {
+    left: 31px;
+  }
+  
+  .timeline-item {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+  
+  .timeline-item::after {
+    left: 15px;
+  }
+  
+  .left::after, .right::after {
+    left: 15px;
+  }
+  
+  .right {
+    left: 0%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+}

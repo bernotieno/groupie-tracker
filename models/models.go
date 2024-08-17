@@ -28,3 +28,8 @@ type Date struct {
 type Relation struct {
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
+
+type Err struct {
+	ErrMsg     string
+	StatusCode int
+}
