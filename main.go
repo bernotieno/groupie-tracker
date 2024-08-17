@@ -8,10 +8,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/artists", handlers.ArtistsHandler)
-	http.HandleFunc("/locations", handlers.LocationsHandler)
-	http.HandleFunc("/dates", handlers.DatesHandler)
-	http.HandleFunc("/relations", handlers.RelationsHandler)
+
 	http.HandleFunc("/artistInfo", handlers.ArtistInfo)
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/static/", handlers.StaticServer)
