@@ -63,21 +63,6 @@ func StaticServer(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filePath)
 }
 
-func StaticServer(w http.ResponseWriter, r *http.Request) {
-	filePath := "." + r.URL.Path
-	info, err := os.Stat(filePath)
-	if err != nil {
-		http.Error(w, "Not Found", http.StatusNotFound)
-		return
-	}
-	if info.IsDir() {
-		// The path is a directory, return a 404
-		http.Error(w, "Not Found", http.StatusNotFound)
-		return
-	}
-	http.ServeFile(w, r, filePath)
-}
-
 func ArtistInfo(w http.ResponseWriter, r *http.Request) {
 	if strings.ToUpper(r.Method) != "POST" {
 		HandleError(w, "400 Method Not Allowed", http.StatusMethodNotAllowed)
@@ -167,6 +152,7 @@ func HandleError(w http.ResponseWriter, errMsg string, statusCode int) {
 		return
 	}
 }
+
 func checkURL(url string, ch chan<- string) {
 	resp, err := http.Get(url)
 	var errorMsg string
@@ -215,7 +201,6 @@ func checkURL(url string, ch chan<- string) {
 }
 
 func checkInternetConnection() string {
-
 	urls := []string{
 		"https://groupietrackers.herokuapp.com/api/artists",
 		"https://groupietrackers.herokuapp.com/api/locations",
