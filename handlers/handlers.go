@@ -123,6 +123,8 @@ func ArtistInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleError(w http.ResponseWriter, errMsg string, statusCode int) {
+
+	w.WriteHeader(statusCode)
 	// Parse the error template file
 	tmp, err := template.ParseFiles("./templates/errorPage.html")
 	if err != nil {
