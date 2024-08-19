@@ -215,34 +215,7 @@ footer {
   padding: 20px 0;
 }
 
-@media screen and (max-width: 768px) {
-  .hero h1 {
-    font-size: 3rem;
-  }
 
-  .hero p {
-    font-size: 1.2rem;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .btn {
-    margin-top: 20PX;
-    padding: 10px 20px;
-  }
-
-  .section-title {
-    font-size: 1.8rem;
-  }
-}
 /* Flip Card Styles */
 .flip-card {
   background-color: transparent;
@@ -375,4 +348,39 @@ border-color: var(--secondary-color);
 
 #searchResult a:hover {
   color: var(--secondary-color); /* Change text color on hover */
+}
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  #searchResult {
+    margin-left: 5px;
+  }
+  .btn {
+    margin-top: 20PX;
+    padding: 10px 20px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+}
+@media screen and  (max-width: 390px) {
+  #searchResult {
+    margin-left: 40px;
+  }
 }
