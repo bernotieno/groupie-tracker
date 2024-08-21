@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 
 	"learn.zone01kisumu.ke/git/rcaleb/groupie-tracker/api"
 	"learn.zone01kisumu.ke/git/rcaleb/groupie-tracker/models"
@@ -155,51 +156,42 @@ func HandleError(w http.ResponseWriter, errMsg string, statusCode int) {
 	}
 }
 
-func checkURL(url string, ch chan<- string) {
+func checkURL(url string, ch chan<- string, wg *sync.WaitGroup) {
+	defer wg.Done()
+
 	resp, err := http.Get(url)
-	var errorMsg string
 	if err != nil {
-		// Check for specific network errors
-		if netErr, ok := err.(net.Error); ok {
-			if netErr.Timeout() {
-				errorMsg = fmt.Sprintf("connection timed out: %v", err)
-				ch <- errorMsg
-				return
-			}
-			errorMsg = fmt.Sprintf("network error: %v", err)
-			ch <- errorMsg
-			return
-		}
-
-		// Handle DNS resolution errors
-		if os.IsNotExist(err) {
-			errorMsg = fmt.Sprintf("DNS resolution error: %v", err)
-			ch <- errorMsg
-			return
-		}
-
-		// Handle connection refused
-		if os.IsPermission(err) {
-			errorMsg = fmt.Sprintf("connection refused: %v", err)
-			ch <- errorMsg
-			return
-		}
-
-		// General network error
-		errorMsg = "General network error"
+		errorMsg := handleNetworkError(err)
 		ch <- errorMsg
 		return
 	}
 
-	// Ensure that the response status code is 200 OK
 	if resp.StatusCode != http.StatusOK {
-		errorMsg = fmt.Sprintf("unexpected status code %d for URL %s", resp.StatusCode, url)
+		errorMsg := fmt.Sprintf("unexpected status code %d for URL %s", resp.StatusCode, url)
 		ch <- errorMsg
 		return
 	}
 
-	// Indicate success
 	ch <- ""
+}
+
+func handleNetworkError(err error) string {
+	if netErr, ok := err.(net.Error); ok {
+		if netErr.Timeout() {
+			return fmt.Sprintf("connection timed out: %v", err)
+		}
+		return fmt.Sprintf("network error: %v", err)
+	}
+
+	if os.IsNotExist(err) {
+		return fmt.Sprintf("DNS resolution error: %v", err)
+	}
+
+	if os.IsPermission(err) {
+		return fmt.Sprintf("connection refused: %v", err)
+	}
+
+	return "General network error"
 }
 
 func checkInternetConnection() string {
@@ -211,22 +203,26 @@ func checkInternetConnection() string {
 	}
 
 	// Channel to receive error messages
-	ch := make(chan string)
+	ch := make(chan string, len(urls)) // Buffer the channel to avoid blocking
+
+	var wg sync.WaitGroup
+	wg.Add(len(urls))
 
 	// Launch goroutines for each URL
 	for _, url := range urls {
-		go checkURL(url, ch)
+		go checkURL(url, ch, &wg)
 	}
 
+	// Wait for all goroutines to complete
+	wg.Wait()
+	close(ch)
+
 	// Collect results
-	var errorMsg string
-	for range urls {
-		if msg := <-ch; msg != "" {
-			errorMsg = msg
-			// Stop checking further if an error is found
-			break
+	for msg := range ch {
+		if msg != "" {
+			return msg
 		}
 	}
 
-	return errorMsg
+	return ""
 }
