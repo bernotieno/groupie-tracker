@@ -16,22 +16,22 @@ var (
 )
 
 func CollectData() ([]models.Data, error) {
-	Locations, err1 := FetchLocation()
+	Locations, err1 := FetchLocation("https://groupietrackers.herokuapp.com/api/locations")
 	if err1 != nil {
 		log.Println(err1)
 		return []models.Data{}, err1
 	}
-	Artists, err2 := FetchArtists()
+	Artists, err2 := FetchArtists("https://groupietrackers.herokuapp.com/api/artists")
 	if err2 != nil {
 		log.Println(err2)
 		return []models.Data{}, err2
 	}
-	Dates, err3 := FetchDate()
+	Dates, err3 := FetchDate("https://groupietrackers.herokuapp.com/api/dates")
 	if err3 != nil {
 		log.Println(err3)
 		return []models.Data{}, err3
 	}
-	Relations, err4 := FetchRelationData()
+	Relations, err4 := FetchRelationData("https://groupietrackers.herokuapp.com/api/relation")
 	if err4 != nil {
 		log.Println(err4)
 		return []models.Data{}, err4
@@ -48,8 +48,8 @@ func CollectData() ([]models.Data, error) {
 	return data, nil
 }
 
-func FetchLocation() ([]models.Location, error) {
-	location, err1 := http.Get("https://groupietrackers.herokuapp.com/api/locations")
+func FetchLocation(url string) ([]models.Location, error) {
+	location, err1 := http.Get(url)
 	if err1 != nil {
 		log.Println(err1)
 		return []models.Location{}, err1
@@ -81,8 +81,8 @@ func FetchLocation() ([]models.Location, error) {
 	return Locations, nil
 }
 
-func FetchDate() ([]models.Date, error) {
-	date, err1 := http.Get("https://groupietrackers.herokuapp.com/api/dates")
+func FetchDate(url string) ([]models.Date, error) {
+	date, err1 := http.Get(url)
 	if err1 != nil {
 		log.Println(err1)
 		return []models.Date{}, err1
@@ -114,8 +114,8 @@ func FetchDate() ([]models.Date, error) {
 	return Dates, nil
 }
 
-func FetchRelationData() ([]models.Relation, error) {
-	relation, err1 := http.Get("https://groupietrackers.herokuapp.com/api/relation")
+func FetchRelationData(url string) ([]models.Relation, error) {
+	relation, err1 := http.Get(url)
 	if err1 != nil {
 		log.Println(err1)
 		return []models.Relation{}, err1
@@ -148,8 +148,8 @@ func FetchRelationData() ([]models.Relation, error) {
 	return Relations, nil
 }
 
-func FetchArtists() ([]models.Artist, error) {
-	resArtist, err1 := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+func FetchArtists(url string) ([]models.Artist, error) {
+	resArtist, err1 := http.Get(url)
 	if err1 != nil {
 		log.Println(err1)
 		return []models.Artist{}, err1
