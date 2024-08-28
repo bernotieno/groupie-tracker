@@ -9,15 +9,16 @@ import (
 	"learn.zone01kisumu.ke/git/rcaleb/groupie-tracker/models"
 )
 
+// HandleError writes an HTTP error response with a specified status code and message.
+// It renders an error page using a template, logging errors encountered during 
+// template parsing or execution. If template execution fails, it ensures that 
+// a 500 Internal Server Error is returned if it was not already set.
 func HandleError(w http.ResponseWriter, errMsg string, statusCode int) {
 
 	w.WriteHeader(statusCode)
-	// Parse the error template file
 	tmp, err := template.ParseFiles("./templates/errorPage.html")
 	if err != nil {
-		// Log the parsing error
 		log.Printf("Error parsing template: %v\n", err)
-		// Ensure that no further status code is set by returning immediately
 		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -28,14 +29,12 @@ func HandleError(w http.ResponseWriter, errMsg string, statusCode int) {
 		StatusCode: statusCode,
 	}
 
-	// Execute the template
 	err1 := tmp.Execute(w, errors)
 	if err1 != nil {
-		// Log the template execution error and respond with 500 if not already handled
+		
 		fmt.Printf("Error executing template here: %v\n", err1)
-		// Ensure that we do not set another status code by handling the error internally
+		
 		if statusCode != http.StatusInternalServerError {
-			// Only set the internal server error if no other status code was set
 			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
 		}
 		return

@@ -15,6 +15,9 @@ var (
 	realationMap map[string]json.RawMessage
 )
 
+// CollectData fetches and compiles artist, location, date, and relation data 
+// from predefined API endpoints into a slice of `models.Data` objects. It logs 
+// and returns errors if any of the fetch operations fail.
 func CollectData() ([]models.Data, error) {
 	Locations, err1 := FetchLocation("https://groupietrackers.herokuapp.com/api/locations")
 	if err1 != nil {
@@ -48,6 +51,9 @@ func CollectData() ([]models.Data, error) {
 	return data, nil
 }
 
+// FetchLocation retrieves location data from the specified URL, processes the JSON response,
+// and returns a slice of location models. It logs and returns errors if the HTTP request,
+// reading the response body, or JSON unmarshalling fails.
 func FetchLocation(url string) ([]models.Location, error) {
 	location, err1 := http.Get(url)
 	if err1 != nil {
@@ -81,6 +87,9 @@ func FetchLocation(url string) ([]models.Location, error) {
 	return Locations, nil
 }
 
+// FetchDate retrieves date data from the specified URL, processes the JSON response,
+// and returns a slice of date models. It logs and returns errors if the HTTP request,
+// reading the response body, or JSON unmarshalling fails.
 func FetchDate(url string) ([]models.Date, error) {
 	date, err1 := http.Get(url)
 	if err1 != nil {
@@ -114,6 +123,9 @@ func FetchDate(url string) ([]models.Date, error) {
 	return Dates, nil
 }
 
+// FetchRelationData retrieves relation data from the specified URL, processes the JSON response,
+// and returns a slice of relation models. It logs and returns errors if the HTTP request,
+// reading the response body, or JSON unmarshalling fails.
 func FetchRelationData(url string) ([]models.Relation, error) {
 	relation, err1 := http.Get(url)
 	if err1 != nil {
@@ -148,6 +160,9 @@ func FetchRelationData(url string) ([]models.Relation, error) {
 	return Relations, nil
 }
 
+// FetchArtists retrieves artist data from the specified URL, parses the JSON response,
+// and returns a slice of artist models. It logs and returns errors if the HTTP request,
+// reading response body, or JSON unmarshalling fails.
 func FetchArtists(url string) ([]models.Artist, error) {
 	resArtist, err1 := http.Get(url)
 	if err1 != nil {
