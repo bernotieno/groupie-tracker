@@ -11,9 +11,8 @@ import (
 	"learn.zone01kisumu.ke/git/rcaleb/groupie-tracker/models"
 )
 
-
-// ArtistInfo handles POST requests to "/artistInfo" by rendering artist data 
-// from a template. It returns errors for invalid methods, missing artist names, 
+// ArtistInfo handles POST requests to "/artistInfo" by rendering artist data
+// from a template. It returns errors for invalid methods, missing artist names,
 // poor connectivity, or if the artist is not found.
 func ArtistInfo(w http.ResponseWriter, r *http.Request) {
 	if strings.ToUpper(r.Method) != "POST" {

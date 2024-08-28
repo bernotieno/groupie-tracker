@@ -13,8 +13,8 @@ import (
 var artistUrl = "https://groupietrackers.herokuapp.com/api/artists"
 
 // Home handles requests to the root path ("/") and serves the Home.html template.
-// It checks for valid request methods and internet connectivity before fetching 
-// artist data and rendering the template. Errors are handled with appropriate 
+// It checks for valid request methods and internet connectivity before fetching
+// artist data and rendering the template. Errors are handled with appropriate
 // HTTP status codes and messages.
 func Home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {

@@ -8,9 +8,9 @@ import (
 	"sync"
 )
 
-// StaticServer serves static files from the server's root directory based on 
-// the request URL path. It returns a 500 Internal Server Error if the file 
-// cannot be accessed or 403 Forbidden if the requested path is a directory. 
+// StaticServer serves static files from the server's root directory based on
+// the request URL path. It returns a 500 Internal Server Error if the file
+// cannot be accessed or 403 Forbidden if the requested path is a directory.
 // Otherwise, it serves the requested file.
 func StaticServer(w http.ResponseWriter, r *http.Request) {
 	filePath := "." + r.URL.Path
@@ -26,7 +26,7 @@ func StaticServer(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filePath)
 }
 
-// checkURL performs an HTTP GET request to the specified URL and sends an 
+// checkURL performs an HTTP GET request to the specified URL and sends an
 // error message to the channel if the request fails or returns a non-200 status code.
 // If the request is successful with a 200 status code, it sends an empty string.
 func checkURL(url string, ch chan<- string, wg *sync.WaitGroup) {
@@ -68,7 +68,7 @@ func handleNetworkError(err error) string {
 	return "General network error"
 }
 
-// checkInternetConnection checks multiple URLs concurrently to determine if 
+// checkInternetConnection checks multiple URLs concurrently to determine if
 // the internet connection is active, returning an error message if any URL fails.
 func checkInternetConnection() string {
 	urls := []string{
