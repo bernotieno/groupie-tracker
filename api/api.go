@@ -15,8 +15,8 @@ var (
 	realationMap map[string]json.RawMessage
 )
 
-// CollectData fetches and compiles artist, location, date, and relation data 
-// from predefined API endpoints into a slice of `models.Data` objects. It logs 
+// CollectData fetches and compiles artist, location, date, and relation data
+// from predefined API endpoints into a slice of `models.Data` objects. It logs
 // and returns errors if any of the fetch operations fail.
 func CollectData() ([]models.Data, error) {
 	Locations, err1 := FetchLocation("https://groupietrackers.herokuapp.com/api/locations")
