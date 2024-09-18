@@ -85,26 +85,6 @@ function fetchFromServer(url) {
 }
 
 
-// function displaySuggestions(suggestions) {
-//     clearSuggestions();
-//     if (suggestions.length > 0) {
-//         const suggestionsList = document.createElement('ul');
-//         suggestionsList.className = 'suggestions-list';
-//         suggestions.forEach(suggestion => {
-//             const li = document.createElement('li');
-//             li.textContent = suggestion.Result;
-//             li.addEventListener('click', () => {
-//                 searchInput.value = suggestion.ArtistName;
-//                 clearSuggestions();
-//                 performSearch();
-//             });
-//             suggestionsList.appendChild(li);
-//         });
-//         searchResult.appendChild(suggestionsList);
-//         searchResult.style.display = 'block';
-//     }
-// }
-
 function clearSuggestions() {
     const existingSuggestions = searchResult.querySelector('.suggestions-list');
     if (existingSuggestions) {
@@ -162,26 +142,6 @@ function submitFormWithArtist(artistName) {
     document.body.appendChild(form);
     form.submit();
 }
-
-function createResultElement(result) {
-    const li = document.createElement('li');
-    li.className = 'result-item';
-    li.innerHTML = `
-        <p>${result.Result}</p>
-    `;
-    return li;
-}
-
-// function displayNoResultsMessage() {
-//     clearResults()
-//     const messageDiv = document.createElement('div');
-//     messageDiv.className = 'no-results-message';
-//     messageDiv.innerHTML = `
-//         <p>No artists found</p>
-//     `;
-//     searchResult.appendChild(messageDiv);
-//     searchResult.style.display = 'block';
-// }
 
 function clearResults() {
     searchResult.innerHTML = '';
