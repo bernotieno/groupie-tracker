@@ -51,7 +51,6 @@ type SearchIndex struct {
 	FirstAlbum   map[string][]IndexedData
 	CreationDate map[int][]IndexedData
 	mu           sync.RWMutex
-	// searchInProgress sync.Map
 }
 
 type IndexedData struct {
@@ -129,6 +128,8 @@ func (index *SearchIndex) searchArtistNames(ctx context.Context, query string, r
 }
 
 func (index *SearchIndex) searchMemberNames(ctx context.Context, query string, resultChan chan<- SearchResult) {
+	index.mu.RLock()
+	defer index.mu.RUnlock()
 	for _, data := range index.MemberName {
 		for _, d := range data {
 			for _, member := range d.Data.A.Members {
@@ -149,6 +150,8 @@ func (index *SearchIndex) searchMemberNames(ctx context.Context, query string, r
 }
 
 func (index *SearchIndex) searchLocations(ctx context.Context, query string, resultChan chan<- SearchResult) {
+	index.mu.RLock()
+	defer index.mu.RUnlock()
 	for _, data := range index.LocationName {
 		for _, d := range data {
 			for _, location := range d.Data.L.Locations {
@@ -169,6 +172,8 @@ func (index *SearchIndex) searchLocations(ctx context.Context, query string, res
 }
 
 func (index *SearchIndex) searchFirstAlbums(ctx context.Context, query string, resultChan chan<- SearchResult) {
+	index.mu.RLock()
+	defer index.mu.RUnlock()
 	for _, data := range index.FirstAlbum {
 		for _, d := range data {
 			if strings.Contains(strings.ToLower(d.Data.A.FirstAlbum), query) {
