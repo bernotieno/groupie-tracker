@@ -25,44 +25,32 @@ searchInput.addEventListener('input', () => {
 });
 
 
-
 async function performSearch() {
     const query = searchInput.value.trim();
+    
     if (query.length > 0) {
         try {
-            const response = await fetch('/search?q=' + encodeURIComponent(query));
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const results = await response.json();
+            const results = await fetchFromServer('/search?q=' + encodeURIComponent(query));
             const uniqueResults = new Set();
 
-    // Filter the results to keep only unique ones
-    const filteredResults = results.filter(result => {
-        const isDuplicate = uniqueResults.has(result.Result);
-        uniqueResults.add(result.Result);
-        return !isDuplicate;
-    });
-            // Check if results is null or not an array
-            if (!results || !Array.isArray(results)) {
-              
-                displayErrorMessage()
-            }
-            
-            if (filteredResults.length === 0) {
-                displayNoResultsMessage();
+            // Filter the results to keep only unique ones
+            const filteredResults = results.filter(result => {
+                const isDuplicate = uniqueResults.has(result.Result);
+                uniqueResults.add(result.Result);
+                return !isDuplicate;
+            });
+
+            // Check if results are empty, null, or not an array
+            if (!results || !Array.isArray(results) || filteredResults.length === 0) {
+                displayErrorMessage(); // Ensure the error message is displayed
             } else {
-                
                 displayResults(filteredResults);
             }
         } catch (error) {
-            // console.error('Error performing search:', error);
-            // displayErrorMessage();
+            displayErrorMessage(); // Handle errors during the fetch
         }
     } else {
-        clearResults();
+        clearResults(); // Clear results if the input is empty
     }
 }
 
@@ -70,33 +58,14 @@ function displayErrorMessage() {
     clearResults();
     const errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
-    errorDiv.textContent = `Artist Not Found`;
+    errorDiv.textContent = `Result Not Found`;
     searchResult.appendChild(errorDiv);
     searchResult.style.display = 'block';
 }
 
-function fetchFromServer(url) {
-    return fetch(url).then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    });
-}
-
-
-function clearSuggestions() {
-    const existingSuggestions = searchResult.querySelector('.suggestions-list');
-    if (existingSuggestions) {
-        existingSuggestions.remove();
-    }
-}
-
 function displayResults(results) {
     clearResults();
-    if (results.length === 0 || results === null) {
-        displayNoResultsMessage();
-    } else {
+    
         const resultsList = document.createElement('ul');
         resultsList.className = 'results-list';
         results.forEach(result => {
@@ -119,7 +88,7 @@ function displayResults(results) {
             resultsList.appendChild(li);
         });
         searchResult.appendChild(resultsList);
-    }
+    
     searchResult.style.display = 'block';
 }
 
