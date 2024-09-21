@@ -30,7 +30,13 @@ async function performSearch() {
     
     if (query.length > 0) {
         try {
-            const results = await fetch('/search?q=' + encodeURIComponent(query));
+            const response = await fetch('/search?q=' + encodeURIComponent(query));
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const results = await response.json();
             const uniqueResults = new Set();
 
             // Filter the results to keep only unique ones
