@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
 // StaticServer serves static files from the server's root directory based on
@@ -24,43 +25,24 @@ func StaticServer(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filePath)
 }
 
-func checkInternetConnection() string {
-	urls := []string{
-		"https://groupietrackers.herokuapp.com/api/artists",
-		"https://groupietrackers.herokuapp.com/api/locations",
-		"https://groupietrackers.herokuapp.com/api/dates",
-		"https://groupietrackers.herokuapp.com/api/relation",
+// checkInternetConnection attempts to make an HTTP GET request to a reliable server.
+// It returns an error if the request fails, indicating no internet connection or instability.
+func CheckInternetConnection() error {
+	client := http.Client{
+		Timeout: 5 * time.Second, // Set a timeout to avoid hanging requests
 	}
 
-	errCh := make(chan string, len(urls)) // Channel to receive errors
-	doneCh := make(chan bool)             // Channel to signal completion
+	// Try making a GET request to a reliable server (e.g., google.com)
+	resp, err := client.Get("https://www.google.com")
+	if err != nil {
+		return fmt.Errorf("internet connectivity issue: %v", err)
+	}
+	defer resp.Body.Close()
 
-	for _, url := range urls {
-		go func(url string) {
-			resp, err := http.Get(url)
-			if err != nil || resp.StatusCode != http.StatusOK {
-				errCh <- fmt.Sprintf("Error connecting to %s: %v", url, err)
-				return
-			}
-			errCh <- "" // No error
-		}(url)
+	// Check if the server responded with a valid status code
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("internet connectivity issue: received status code %d", resp.StatusCode)
 	}
 
-	// Wait for all checks to complete
-	go func() {
-		for i := 0; i < len(urls); i++ {
-			errMsg := <-errCh
-			if errMsg != "" {
-				doneCh <- false // Error occurred
-				return
-			}
-		}
-		doneCh <- true // All checks successful
-	}()
-
-	if success := <-doneCh; !success {
-		return <-errCh
-	}
-
-	return ""
+	return nil
 }

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -33,12 +32,12 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg := checkInternetConnection()
-	if msg != "" {
-		fmt.Println(msg)
-		HandleError(w, "Internet Connectivity Issues", http.StatusRequestTimeout)
+	if err := CheckInternetConnection(); err != nil {
+		log.Println(err)
+		HandleError(w, "Poor Internet Connectivity", http.StatusGatewayTimeout)
 		return
 	}
+
 	data, err := api.FetchArtists(artistUrl)
 	if err != nil {
 		HandleError(w, "Internal Server Error", http.StatusInternalServerError)
