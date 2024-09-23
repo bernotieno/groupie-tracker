@@ -1,6 +1,6 @@
-# Groupie Tracker
+# Groupie Tracker Search Bar
 
-Groupie Tracker is a web application that provides information about various music artists, including their locations, concert dates, and other related details. The application fetches data from a public API and presents it in a user-friendly interface.
+Groupie Tracker Search Bar is a web application that provides information about various music artists, including their locations, concert dates, and other related details. The application fetches data from a public API and presents it in a user-friendly interface, featuring a search bar that allows users to easily find specific artists by name or filter results based on location or concert dates.
 
 ## Table of Contents
 
@@ -13,6 +13,7 @@ Groupie Tracker is a web application that provides information about various mus
 - [Styling](#styling)
 - [Contributing](#contributing)
 - [License](#license)
+- [Authors](#authors)
 
 ## Features
 
@@ -29,13 +30,13 @@ To run this project locally, follow these steps:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://learn.zone01kisumu.ke/git/rcaleb/groupie-tracker.git
+    git clone https://learn.zone01kisumu.ke/git/bernaotieno/groupie-tracker-search-bar.git
     ```
 
 2. **Navigate to the project directory:**
 
     ```bash
-    cd groupie-tracker
+    cd groupie-tracker-search-bar
     ```
 
 3. **Install dependencies:**
@@ -57,7 +58,7 @@ To run this project locally, follow these steps:
 5. **Open your browser and navigate to:**
 
     ```
-    http://localhost:8080
+    http://localhost:8081
     ```
 
 ## Usage
@@ -80,18 +81,21 @@ The project is structured as follows:
 ├── api/
 │ ├── api.go # Contains functions to fetch data from the API
 │
+├── cmd/
+| ├──cmd.go # HAndles functions and listening to server
 ├── handlers/
 │ ├── handlers.go # Contains HTTP handlers for different routes
 │ 
 ├── models/
-│ ├── models.go # Defines the data models (e.g., Artist, Location, Date, Relation)
+│ ├── models.go # Defines the data models  and has the search functionalities
 │ 
 ├── static/
-│ ├── Static files (i.e. images, CSS)
+│ ├── Static files (i.e. images, CSS) and the JavaScript file.
 │ 
 ├── templates/
 │ ├── Home.html # Template for the home page
 │ ├── artistPage.html # Template for artist details page
+| ├── errorPage.html # Template for error messages
 │ 
 ├── main.go # Entry point of the application
 |
@@ -116,6 +120,7 @@ The `api.go` file in the `api/` directory contains the logic for fetching and pr
 
 - **Home.html:** The main page that lists all the artists.
 - **artistPage.html:** The detailed page for a specific artist.
+- **errorPage.html:** The Page that is shown when an error occurs.
 
 These templates are stored in the `templates/` directory and are rendered using Go's `html/template` package.
 
@@ -131,3 +136,8 @@ If you'd like to contribute to this project, feel free to open an issue or submi
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+## Authors
+
+**[Bernad Okumu](https://learn.zone01kisumu.ke/git/bernaotieno)**
+
+**[Raymond Caleb](https://learn.zone01kisumu.ke/git/rcaleb)**
