@@ -64,8 +64,11 @@ type SearchResult struct {
 }
 
 func (index *SearchIndex) Search(query string) []SearchResult {
+	var results []SearchResult
 	query = strings.ToLower(query)
-
+	if len(query) == 0 {
+		return []SearchResult{}
+	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -94,7 +97,6 @@ func (index *SearchIndex) Search(query string) []SearchResult {
 		close(resultChan)
 	}()
 
-	var results []SearchResult
 	for result := range resultChan {
 		select {
 		case <-ctx.Done():
@@ -102,6 +104,9 @@ func (index *SearchIndex) Search(query string) []SearchResult {
 		default:
 			results = append(results, result)
 		}
+	}
+	if len(results) == 0 {
+		return []SearchResult{}
 	}
 
 	return results
