@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -38,13 +37,11 @@ func ArtistInfo(w http.ResponseWriter, r *http.Request) {
 		HandleError(w, "Bad Request: Missing artist name", http.StatusBadRequest)
 		return
 	}
-	msg := checkInternetConnection()
-	if msg != "" {
-		fmt.Println(msg)
-		HandleError(w, "Poor Internet Connectivity", http.StatusRequestTimeout)
+	if err := CheckInternetConnection(); err != nil {
+		log.Println(err)
+		HandleError(w, "Poor Internet Connectivity", http.StatusGatewayTimeout)
 		return
 	}
-
 	artistInfo, err := api.CollectData()
 	if err != nil {
 		HandleError(w, "500 Internal Server Error", http.StatusInternalServerError)
