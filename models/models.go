@@ -273,6 +273,10 @@ func (index *SearchIndex) PreloadData(data []Data) {
 
 // SearchHandler handles search requests using preloaded data
 func (index *SearchIndex) SearchHandler(w http.ResponseWriter, r *http.Request) {
+	if strings.ToUpper(r.Method) != "GET" {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
 	// Get the search query from URL parameters
 	query := r.URL.Query().Get("q")
 	if query == "" {
