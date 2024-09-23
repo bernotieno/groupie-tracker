@@ -110,9 +110,10 @@ func (index *SearchIndex) Search(query string) []SearchResult {
 func (index *SearchIndex) searchArtistNames(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
-
+	track := make(map[string]bool)
 	for name, data := range index.ArtistName {
-		if strings.Contains(strings.ToLower(name), query) {
+		if strings.Contains(strings.ToLower(name), query) && !track[name] {
+			track[name] = true
 			for _, d := range data {
 				select {
 				case <-ctx.Done():
@@ -130,10 +131,12 @@ func (index *SearchIndex) searchArtistNames(ctx context.Context, query string, r
 func (index *SearchIndex) searchMemberNames(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
+	track := make(map[string]bool)
 	for _, data := range index.MemberName {
 		for _, d := range data {
 			for _, member := range d.Data.A.Members {
-				if strings.Contains(strings.ToLower(member), query) {
+				if strings.Contains(strings.ToLower(member), query) && !track[member+d.ArtistName] {
+					track[member+d.ArtistName] = true
 					select {
 					case <-ctx.Done():
 						return
@@ -152,10 +155,13 @@ func (index *SearchIndex) searchMemberNames(ctx context.Context, query string, r
 func (index *SearchIndex) searchLocations(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
+	track := make(map[string]bool)
 	for _, data := range index.LocationName {
 		for _, d := range data {
 			for _, location := range d.Data.L.Locations {
-				if strings.Contains(strings.ToLower(location), query) {
+				if strings.Contains(strings.ToLower(location), query) && !track[location+d.ArtistName] {
+					track[location+d.ArtistName] = true
+
 					select {
 					case <-ctx.Done():
 						return
@@ -174,9 +180,11 @@ func (index *SearchIndex) searchLocations(ctx context.Context, query string, res
 func (index *SearchIndex) searchFirstAlbums(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
+	track := make(map[string]bool)
 	for _, data := range index.FirstAlbum {
 		for _, d := range data {
-			if strings.Contains(strings.ToLower(d.Data.A.FirstAlbum), query) {
+			if strings.Contains(strings.ToLower(d.Data.A.FirstAlbum), query) && !track[d.Data.A.FirstAlbum+d.ArtistName] {
+				track[d.Data.A.FirstAlbum+d.ArtistName] = true
 				select {
 				case <-ctx.Done():
 					return
