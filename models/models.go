@@ -63,6 +63,9 @@ type SearchResult struct {
 	ArtistName string
 }
 
+// Search performs a search on multiple fields (artist names, member names, locations, first albums, creation dates)
+// within the SearchIndex structure based on a query string.
+// It concurrently runs multiple search functions and gathers results within a timeout.
 func (index *SearchIndex) Search(query string) []SearchResult {
 	var results []SearchResult
 	query = strings.ToLower(query)
@@ -112,6 +115,8 @@ func (index *SearchIndex) Search(query string) []SearchResult {
 	return results
 }
 
+// searchArtistNames searches for artist names in the index that match the given query string
+// and sends the results to the resultChan channel.
 func (index *SearchIndex) searchArtistNames(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
@@ -133,6 +138,8 @@ func (index *SearchIndex) searchArtistNames(ctx context.Context, query string, r
 	}
 }
 
+// searchMemberNames searches for member names in the index that match the given query string
+// and sends the results to the resultChan channel.
 func (index *SearchIndex) searchMemberNames(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
@@ -157,6 +164,8 @@ func (index *SearchIndex) searchMemberNames(ctx context.Context, query string, r
 	}
 }
 
+// searchLocations searches for location names in the index that match the given query string
+// and sends the results to the resultChan channel.
 func (index *SearchIndex) searchLocations(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
@@ -182,6 +191,8 @@ func (index *SearchIndex) searchLocations(ctx context.Context, query string, res
 	}
 }
 
+// searchFirstAlbums searches for first album names in the index that match the given query string
+// and sends the results to the resultChan channel.
 func (index *SearchIndex) searchFirstAlbums(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	index.mu.RLock()
 	defer index.mu.RUnlock()
@@ -204,6 +215,8 @@ func (index *SearchIndex) searchFirstAlbums(ctx context.Context, query string, r
 	}
 }
 
+// searchCreationDates searches for creation dates in the index that match the given query string (interpreted as a year)
+// and sends the results to the resultChan channel.
 func (index *SearchIndex) searchCreationDates(ctx context.Context, query string, resultChan chan<- SearchResult) {
 	if creationDate, err := strconv.Atoi(query); err == nil {
 		index.mu.RLock()
@@ -225,7 +238,8 @@ func (index *SearchIndex) searchCreationDates(ctx context.Context, query string,
 	}
 }
 
-// PreloadData takes the preloaded data and populates the SearchIndex.
+// PreloadData indexes the provided data (artist names, member names, locations, first albums, creation dates)
+// and populates the SearchIndex structure for fast lookup during searches.
 func (index *SearchIndex) PreloadData(data []Data) {
 	index.mu.Lock()
 	defer index.mu.Unlock()
@@ -271,7 +285,9 @@ func (index *SearchIndex) PreloadData(data []Data) {
 	}
 }
 
-// SearchHandler handles search requests using preloaded data
+
+// SearchHandler is an HTTP handler that processes search requests. It reads the search query from
+// the URL parameters, performs a search using the SearchIndex, and returns the results as JSON.
 func (index *SearchIndex) SearchHandler(w http.ResponseWriter, r *http.Request) {
 	if strings.ToUpper(r.Method) != "GET" {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
