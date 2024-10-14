@@ -1,3 +1,4 @@
+import { showLoadingMessage } from './keyboardShortcuts.js'; 
 let debounceTimer;
 const searchForm = document.getElementById('searchForm');
 const searchInput = document.getElementById('searchInput');
@@ -115,6 +116,7 @@ function submitFormWithArtist(artistName) {
     
     // Append the form to the body and submit it
     document.body.appendChild(form);
+    showLoadingMessage();
     form.submit();
 }
 
