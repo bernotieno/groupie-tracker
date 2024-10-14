@@ -1,3 +1,19 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Select all forms in the featured artists section
+    const forms = document.querySelectorAll('#featured-artists form');
+
+    forms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            showLoadingMessage(); // Call the loading message function
+            // Optionally, you can delay the form submission slightly to ensure the loading message is displayed.
+            setTimeout(() => {
+                // Allow the form to submit normally after a short delay
+                this.submit();
+            }, 100); // Adjust the delay if necessary
+        });
+    });
+});
+
 // Function to navigate to a specific section based on keyboard input
 function navigateToSection(sectionId) {
     const section = document.getElementById(sectionId);
@@ -32,31 +48,22 @@ function showLoadingMessage() {
     const spinner = document.createElement('div');
     spinner.classList.add('spinner');
     
-    const cancelButton = document.createElement('button');
-    cancelButton.innerText = 'Cancel';
-    
-    loadingMessage.innerHTML = 'Loading artist info...';
-    
     // Insert the spinner before the text
     loadingMessage.insertBefore(spinner, loadingMessage.firstChild);
-    
-    // Add the Cancel button
-    loadingMessage.appendChild(cancelButton);
     loadingMessage.style.display = "block";
-
-    // Form reference and submit handler
-    let form = null;
-    let submitHandler = null;
     
-    cancelButton.addEventListener('click', function() {
-        hideLoadingMessage(); // Cancel the loading and hide the message
-        // clearTimeout(loadingTimeout); 
-        console.log("Passed")
-        window.location.href = '/';
+    // Add click event listener to the spinner to act as cancel
+    spinner.addEventListener('click', function() {
+        hideLoadingMessage(); // Hide the loading message when spinner is clicked
+        console.log("Cancel initiated by clicking the spinner");
+        window.location.href = '/'; // Redirect to home (or adjust based on your need)
     });
+
+    // Automatically hide the loading message after 5 seconds
+    setTimeout(hideLoadingMessage, 5000);
 }
 
-// Hide loading message
+// Hide loading messagef4f4f4
 function hideLoadingMessage() {
     const loadingMessage = document.getElementById('loadingMessage');
     if (loadingMessage) {
@@ -90,16 +97,11 @@ document.addEventListener('keydown', function(event) {
         const form = focusedCard.closest('form');
         
         if (form) {
-            const submitHandler = function() {
-                hideLoadingMessage();
-            };
-
-            form.addEventListener('submit', submitHandler);
-
-            setTimeout(() => {
-                hideLoadingMessage();
-                form.submit(); 
-            }, 3000); 
+            form.submit()
         }
     }
 });
+export  {
+    showLoadingMessage
+};
+
