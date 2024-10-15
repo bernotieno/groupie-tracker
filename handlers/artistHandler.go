@@ -44,6 +44,7 @@ func ArtistInfo(w http.ResponseWriter, r *http.Request) {
 	}
 	artistInfo, err := api.CollectData()
 	if err != nil {
+		log.Println(err)
 		HandleError(w, "500 Internal Server Error", http.StatusInternalServerError)
 		return
 	}
