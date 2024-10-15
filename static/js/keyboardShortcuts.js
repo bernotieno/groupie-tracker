@@ -54,19 +54,24 @@ function showLoadingMessage() {
     
     // Add click event listener to the spinner to act as cancel
     spinner.addEventListener('click', function() {
+        spinner.remove()
         hideLoadingMessage(); // Hide the loading message when spinner is clicked
         console.log("Cancel initiated by clicking the spinner");
         window.location.href = '/'; // Redirect to home (or adjust based on your need)
     });
 
     // Automatically hide the loading message after 5 seconds
-    setTimeout(hideLoadingMessage, 5000);
+    setTimeout( ()=>{
+        spinner.remove()
+        hideLoadingMessage
+    }, 4000);
 }
 
 // Hide loading messagef4f4f4
 function hideLoadingMessage() {
     const loadingMessage = document.getElementById('loadingMessage');
     if (loadingMessage) {
+        
         loadingMessage.style.display = 'none';
     }
 }
@@ -101,7 +106,4 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
-export  {
-    showLoadingMessage
-};
-
+export {showLoadingMessage};
