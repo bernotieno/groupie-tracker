@@ -1,6 +1,6 @@
-# Groupie Tracker Search Bar
+# Groupie Tracker Visualization
 
-Groupie Tracker Search Bar is a web application that provides information about various music artists, including their locations, concert dates, and other related details. The application fetches data from a public API and presents it in a user-friendly interface, featuring a search bar that allows users to easily find specific artists by name or filter results based on location or concert dates.
+Groupie Tracker Visualization is a web application that provides visual insights into various music artists, including their locations, concert dates, and relations. The app fetches data from a public API and presents it through interactive visualizations, offering users an intuitive and engaging experience.
 
 ## Table of Contents
 
@@ -30,13 +30,13 @@ To run this project locally, follow these steps:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://learn.zone01kisumu.ke/git/bernaotieno/groupie-tracker-search-bar.git
+    git clone https://learn.zone01kisumu.ke/git/bernaotieno/groupie-tracker-visualizations.git
     ```
 
 2. **Navigate to the project directory:**
 
     ```bash
-    cd groupie-tracker-search-bar
+    cd groupie-tracker-Visualizations
     ```
 
 3. **Install dependencies:**
@@ -90,7 +90,7 @@ The project is structured as follows:
 │ ├── models.go # Defines the data models  and has the search functionalities
 │ 
 ├── static/
-│ ├── Static files (i.e. images, CSS) and the JavaScript file.
+│ ├── Static files (i.e. images, CSS) and the JavaScript files.
 │ 
 ├── templates/
 │ ├── Home.html # Template for the home page
