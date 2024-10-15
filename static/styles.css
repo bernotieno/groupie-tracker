@@ -312,7 +312,7 @@ footer {
 }
 
 .flip-card-back input[type="submit"]:hover {
-  background-color: #1c5980; /* Darker on hover */
+  background-color: rgb(231, 235, 16); /* Darker on hover */
 }
 
 /* Flip Effect */
