@@ -409,7 +409,7 @@ border-color: var(--secondary-color);
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.8); /* Optional background */
+  background-color: rgba(255, 255, 255, 0.0); /* Optional background */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -418,13 +418,13 @@ border-color: var(--secondary-color);
 
 /* Loading spinner styles */
 #loadingMessage .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #3498db;
+  border: 4px solid rgba(0, 0, 0, 0.4);
+  border-top: 4px solid #ffd700;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   animation: spin 1s linear infinite;
-  margin-bottom: 10px; /* Space between spinner and text */
+  margin-bottom: 20px; /* Space between spinner and text */
 }
 
 /* Keyframes for spinning effect */

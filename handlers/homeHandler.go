@@ -40,12 +40,14 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 	data, err := api.FetchArtists(artistUrl)
 	if err != nil {
+		log.Println(err)
 		HandleError(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
 	err1 := tmp.Execute(w, data)
 	if err1 != nil {
+		log.Println(err1)
 		HandleError(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
