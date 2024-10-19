@@ -9,8 +9,6 @@ import (
 	"learn.zone01kisumu.ke/git/rcaleb/groupie-tracker/api"
 )
 
-var artistUrl = "https://groupietrackers.herokuapp.com/api/artists"
-
 // Home handles requests to the root path ("/") and serves the Home.html template.
 // It checks for valid request methods and internet connectivity before fetching
 // artist data and rendering the template. Errors are handled with appropriate
@@ -38,7 +36,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := api.FetchArtists(artistUrl)
+	data, err := api.CollectData()
 	if err != nil {
 		log.Println(err)
 		HandleError(w, "Internal Server Error", http.StatusInternalServerError)
