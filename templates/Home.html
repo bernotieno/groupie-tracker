@@ -35,15 +35,24 @@
             <h2 class="section-title">Featured Artists</h2>
             <div class="artist-grid">
                 {{range .}}
-                <form action="/artistInfo" method="post" data-artist-name="{{.Name}}">
+                <form action="/artistInfo" method="post"
+                      data-artist-name="{{.A.Name}}"
+                      data-creation-date="{{.CreationDate}}"
+                      data-first-album-date="{{.FirstAlbumDate}}"
+                      data-number-of-members="{{.NumberOfMembers}}"
+                      data-concert-locations="
+                        {{- range $index, $location := .ConcertLocations -}}
+                            {{if $index}}, {{end}}{{ $location }}
+                        {{- end -}}
+                    ">
                     <div class="flip-card" tabindex="0">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <input type="hidden" name="ArtistName" value="{{.Name}}">
-                                <input type="image" src="{{.Image}}" alt="{{.Name}}" width="250" height="250">
+                                <input type="hidden" name="ArtistName" value="{{.A.Name}}">
+                                <input type="image" src="{{.A.Image}}" alt="{{.A.Name}}" width="250" height="250">
                             </div>
                             <div class="flip-card-back">
-                                <input type="submit" id="back" value="{{.Name}}">
+                                <input type="submit" id="back" value="{{.A.Name}}">
                             </div>
                         </div>
                     </div>

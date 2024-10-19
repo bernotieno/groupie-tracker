@@ -11,10 +11,14 @@ import (
 )
 
 type Data struct {
-	A Artist
-	R Relation
-	L Location
-	D Date
+    A               Artist
+    D               Date
+    L               Location
+    R               Relation
+    CreationDate    int
+    FirstAlbumDate  string
+    NumberOfMembers int
+    ConcertLocations []string
 }
 
 type Artist struct {
