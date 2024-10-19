@@ -47,6 +47,10 @@ func CollectData() ([]models.Data, error) {
 		data[i].D = Dates[i]
 		data[i].L = Locations[i]
 		data[i].R = Relations[i]
+		data[i].CreationDate = Artists[i].CreationDate    // Assuming Artists has CreationDate field
+		data[i].FirstAlbumDate = Artists[i].FirstAlbum    // Assuming Artists has FirstAlbumDate field
+		data[i].NumberOfMembers = len(Artists[i].Members) // Assuming Artists has a Members field
+		data[i].ConcertLocations = Locations[i].Locations // Assuming Locations has a Cities field
 	}
 	return data, nil
 }
