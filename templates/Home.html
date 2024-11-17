@@ -42,7 +42,7 @@
                       data-number-of-members="{{.NumberOfMembers}}"
                       data-concert-locations="
                         {{- range $index, $location := .ConcertLocations -}}
-                            {{if $index}}, {{end}}{{ $location }}
+                            {{if $index}}- {{end}}{{ $location }}
                         {{- end -}}
                     ">
                     <div class="flip-card" tabindex="0">

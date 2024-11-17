@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -48,12 +49,22 @@ func CollectData() ([]models.Data, error) {
 		data[i].D = Dates[i]
 		data[i].L = Locations[i]
 		data[i].R = Relations[i]
-		data[i].CreationDate = Artists[i].CreationDate          // Assuming Artists has CreationDate field
-		data[i].FirstAlbumDate = getYear(Artists[i].FirstAlbum) // Assuming Artists has FirstAlbumDate field
-		data[i].NumberOfMembers = len(Artists[i].Members)       // Assuming Artists has a Members field
-		data[i].ConcertLocations = Locations[i].Locations       // Assuming Locations has a Cities field
+		data[i].CreationDate = Artists[i].CreationDate                    // Assuming Artists has CreationDate field
+		data[i].FirstAlbumDate = getYear(Artists[i].FirstAlbum)           // Assuming Artists has FirstAlbumDate field
+		data[i].NumberOfMembers = len(Artists[i].Members)                 // Assuming Artists has a Members field
+		data[i].ConcertLocations = formatLocation(Locations[i].Locations) // Assuming Locations has a Cities field
 	}
 	return data, nil
+}
+
+// formatLocation formats the location data by splitting the string and appending the first and last elements.
+func formatLocation(location []string) []string {
+	var locations []string
+	for _, loc := range location {
+		splits := strings.Split(loc, "-")
+		locations = append(locations, fmt.Sprintf("%s, %s", splits[0], splits[len(splits)-1]))
+	}
+	return locations
 }
 
 func getYear(s string) string {
