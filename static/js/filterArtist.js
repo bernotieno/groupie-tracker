@@ -1,17 +1,85 @@
 // Select main elements from the provided HTML
-const searchInput = document.getElementById('searchInput');
 const artistForms = document.querySelectorAll('.artist-grid form');
-const searchResult = document.getElementById('searchResult');
+
 
 // Create range filter sliders for Creation Date and First Album Date
+// Create filter container div that floats on top right
+// Create filter toggle button
+const filterToggleBtn = document.createElement('button');
+filterToggleBtn.innerHTML = '🔍 Filters';
+filterToggleBtn.style.cssText = `
+    position: fixed;
+    top: 15px;
+    right: 12px;
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid rgba(255, 215, 0, 0.9);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    color: white;
+`;
+
+filterToggleBtn.addEventListener('mouseover', () => {
+    filterToggleBtn.style.background = 'rgba(255, 215, 0, 1)';
+    filterToggleBtn.style.transform = 'scale(1.05)';
+    filterToggleBtn.style.color = 'black';
+});
+
+filterToggleBtn.addEventListener('mouseout', () => {
+    filterToggleBtn.style.background = 'transparent';
+    filterToggleBtn.style.transform = 'scale(1)';
+    filterToggleBtn.style.color = 'white';
+});
+
+// Add media query for mobile
+const mediaQuery = window.matchMedia('(max-width: 768px)');
+const handleMobileStyles = (e) => {
+    if (e.matches) {
+        filterToggleBtn.style.padding = '6px 12px';
+        filterToggleBtn.style.fontSize = '12px';
+        filterToggleBtn.style.height = '25px';
+        filterToggleBtn.style.top = '20px';
+    }
+};
+mediaQuery.addListener(handleMobileStyles);
+handleMobileStyles(mediaQuery);
+
+const filterContainer = document.createElement('div');
+filterContainer.style.cssText = `
+    position: fixed;
+    top: 10px;
+    right: -100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    margin-top: 40px;
+    @media (max-width: 768px) {
+        width: 85%;
+        padding: 10px;
+        margin-top: 35px;
+    }
+    @media (max-width: 480px) {
+        width: 80%;
+        padding: 8px;
+    }
+`;
+
 const creationDateRange = createRangeFilter('Creation Date', 1960, 2023);
 const firstAlbumDateRange = createRangeFilter('First Album Date', 1960, 2023);
 
 // Create checkbox filter for Number of Members
 const memberCountFilters = createMemberCheckboxes([1, 2, 3, 4, 5, 6, 7, 8]);
-
-// Append filters to the search form container in the provided HTML
-document.querySelector('.hero-content').append(creationDateRange, firstAlbumDateRange, memberCountFilters);
 
 // Create location search input with label
 const locationContainer = document.createElement('div');
@@ -19,15 +87,117 @@ locationContainer.classList.add('location-filter');
 
 const locationLabel = document.createElement('label');
 locationLabel.innerText = 'Location:';
+locationLabel.style.cssText = `
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+`;
 
 const locationInput = document.createElement('input');
 locationInput.type = 'text';
 locationInput.id = 'locationInput';
-locationInput.placeholder = 'Search by Location';
+locationInput.placeholder = 'Filter by Location';
+locationInput.style.cssText = `
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    @media (max-width: 768px) {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    &:focus {
+        outline: none;
+        border-color: #ffd700;
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+`;
 
-// Append label and input to location container, then to the search form container
-locationContainer.append(locationLabel, locationInput);
-document.querySelector('.hero-content').appendChild(locationContainer);
+// Add label and input to location container
+locationContainer.appendChild(locationLabel);
+locationContainer.appendChild(locationInput);
+
+// Style the filter elements
+[creationDateRange, firstAlbumDateRange, memberCountFilters, locationContainer].forEach(element => {
+    element.style.cssText += `
+        margin-bottom: 15px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        @media (max-width: 768px) {
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+    `;
+});
+
+// Style checkboxes and range inputs
+memberCountFilters.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.style.cssText = `
+        margin-right: 8px;
+        cursor: pointer;
+        accent-color: #ffd700;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ddd;
+        border-radius: 3px;
+        transition: all 0.2s ease;
+        position: relative;
+        vertical-align: middle;
+        
+        &:hover {
+            border-color: #ffd700;
+            box-shadow: 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+        
+        &:checked {
+            background-color: #ffd700;
+            border-color: #ffd700;
+        }
+        
+        @media (max-width: 768px) {
+            width: 14px;
+            height: 14px;
+            margin-right: 6px;
+        }
+    `;
+});
+
+memberCountFilters.querySelectorAll('label').forEach(label => {
+    label.style.cssText = `
+        margin-right: 12px;
+        color: #333;
+        cursor: pointer;
+        font-size: 14px;
+        @media (max-width: 768px) {
+            font-size: 12px;
+            margin-right: 8px;
+        }
+    `;
+});
+
+// Append all filters to the floating container
+filterContainer.append(creationDateRange, firstAlbumDateRange, memberCountFilters, locationContainer);
+
+// Add the floating container and toggle button to the body
+document.body.appendChild(filterToggleBtn);
+document.body.appendChild(filterContainer);
+
+// Toggle filter panel visibility
+let isFilterVisible = false;
+filterToggleBtn.addEventListener('click', () => {
+    isFilterVisible = !isFilterVisible;
+    filterContainer.style.right = isFilterVisible ? '10px' : '-100%';
+    filterToggleBtn.innerHTML = isFilterVisible ? '✕ Close' : '🔍 Filters';
+});
 
 // Add event listeners to the range sliders, checkboxes, and search inputs
 creationDateRange.addEventListener('input', filterArtists);
@@ -131,13 +301,3 @@ function createMemberCheckboxes(memberOptions) {
   return container;
 }
 
-// Search form submission handling to show results based on search input
-function handleSearch(event) {
-  event.preventDefault();
-  const searchTerm = searchInput.value.trim();
-
-  if (searchTerm) {
-    searchResult.style.display = 'block';
-    filterArtists();
-  }
-}
