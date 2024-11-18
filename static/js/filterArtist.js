@@ -228,7 +228,7 @@ function filterArtists() {
     // Get artist concert locations and split by commas
     const concertLocations = form.getAttribute('data-concert-locations')
                                   .toLowerCase()
-                                  .split(', ')
+                                  .split('- ')
                                   .map(location => location.trim());
 
     // Check if any location contains the location search term
