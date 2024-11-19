@@ -1,6 +1,6 @@
-# Groupie Tracker Visualization
+# Groupie Tracker Filter
 
-Groupie Tracker Visualization is a web application that provides visual insights into various music artists, including their locations, concert dates, and relations. The app fetches data from a public API and presents it through interactive visualizations, offering users an intuitive and engaging experience.
+Groupie Tracker Filter is a web application that provides visual insights into various music artists, including their locations, concert dates, and relations with the option to filter the cards with specification of creation date, location, first album date and number of members. The app fetches data from a public API and presents it through interactive visualizations, offering users an intuitive and engaging experience.
 
 ## Table of Contents
 
@@ -30,13 +30,13 @@ To run this project locally, follow these steps:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://learn.zone01kisumu.ke/git/bernaotieno/groupie-tracker-visualizations.git
+    git clone https://learn.zone01kisumu.ke/git/bernaotieno/groupie-tracker-filters.git
     ```
 
 2. **Navigate to the project directory:**
 
     ```bash
-    cd groupie-tracker-Visualizations
+    cd groupie-tracker-filters
     ```
 
 3. **Install dependencies:**
