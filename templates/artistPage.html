@@ -1,0 +1,162 @@
+<html>
+  <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Page</title>
+<link rel="stylesheet" href="../static/artistStyles.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/icon.png">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/" class="button">Home</a></li>
+        <li><a href="#members">Members</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <img src="{{.A.Image}}" alt="{{.A.Name}}" class="{{.A.Name}}-image">
+      <h1>{{.A.Name}}</h1>
+      <p>Legendary Artist Since {{.A.CreationDate}}</p>
+      <p>First Album Release On {{.A.FirstAlbum }}</p>
+      <a href="#members" class="btn">Explore</a>
+    </div>
+  </section>
+
+<section id="members" class="section">
+  <div class="container">
+    <h2 class="section-title">Band Members</h2>
+    <div class="members-list">
+      {{range .A.Members}}
+      <div class="member-item">
+        <h3>{{.}}</h3>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>
+
+
+<section id="timeline" class="section">
+  <div class="container">
+    <h2 class="section-title">{{.A.Name}} Timeline</h2>
+    <div class="timeline">
+      {{range $year, $events := .R.DatesLocations}}
+      {{range $index, $event := $events}}
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>{{$year}}</h3>
+          <p>{{$event}}</p>
+        </div>
+      </div>
+      {{end}}
+      {{end}}
+    </div>
+  </div>
+</section>
+<!-- Button to show performance locations and dates -->
+<div class="btn-container">
+  <button id="toggle-locations-dates" class="show-btn">Show Performance Locations and Dates</button>
+</div>
+
+<!-- Hidden sections for performance dates and locations -->
+<div id="performance-info" class="hidden">
+  <section id="performance-dates" class="section">
+      <div class="container">
+          <h2 class="section-title">{{.A.Name}} Performance Dates</h2>
+          <ul>
+              {{range .D.Dates}}
+              <li>{{.}}</li>
+              {{end}}
+          </ul>
+      </div>
+  </section>
+
+  <section id="performance-locations" class="section">
+      <div class="container">
+          <h2 class="section-title">{{.A.Name}} Performance Locations</h2>
+          <ul>
+              {{range .L.Locations}}
+              <li>{{.}}</li>
+              {{end}}
+          </ul>
+      </div>
+  </section>
+</div>
+
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Music Legends. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+  <script>
+ // JavaScript to toggle the visibility of performance info
+ document.getElementById('toggle-locations-dates').addEventListener('click', function() {
+        const performanceInfo = document.getElementById('performance-info');
+        performanceInfo.classList.toggle('hidden'); // Toggle hidden class
+        this.textContent = performanceInfo.classList.contains('hidden') ? 'Show Performance Locations and Dates' : 'Hide Performance Locations and Dates';
+    });
+
+
+//javascript to scroll smoothly when explore is clicked
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.hero-image', {
+      duration: 1.5,
+      opacity: 0,
+      y: -50,
+      rotation: 360,
+      ease: 'elastic.out(1, 0.5)'
+    });
+
+    gsap.from('.hero-content h1, .hero-content p, .hero-content .btn', {
+      duration: 1,
+      opacity: 0,
+      y: 50,
+      stagger: 0.2,
+      ease: 'power3.out',
+      delay: 0.5
+    });
+
+    gsap.from('.member-item', {
+      scrollTrigger: {
+        trigger: '#members',
+        start: 'top center'
+      },
+      duration: 0.8,
+      opacity: 0,
+      y: 50,
+      stagger: 0.1,
+      ease: 'back.out(1.7)'
+    });
+
+    gsap.from('.timeline-item', {
+      scrollTrigger: {
+        trigger: '#timeline',
+        start: 'top center'
+      },
+      duration: 1,
+      opacity: 0,
+      x: (index) => index % 2 === 0 ? -50 : 50,
+      stagger: 0.3
+    });
+  </script>
+</body></html>
